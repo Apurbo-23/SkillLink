@@ -205,6 +205,38 @@
                                             </select>
                                         </div>
                                     </div>
+                                <!-- STATUS INDICATOR -->
+                                    <div x-data="{ status: 'pending' }" class="border-t pt-3 mt-3" style="border-color: rgba(212, 175, 55, 0.15);">
+                                        <div class="flex items-center gap-3">
+                                            <!-- <span class="px-2 py-1 text-xs rounded font-semibold"
+                                                :class="{
+                                                    'bg-orange-100 text-orange-700': status === 'pending',
+                                                    'bg-red-100 text-red-700': status === 'incomplete',
+                                                    'bg-green-100 text-green-700': status === 'done'
+                                                }"
+                                                x-text="status.charAt(0).toUpperCase() + status.slice(1)">
+                                            </span> -->
+                                            <span class="px-2 py-1 text-xs rounded font-semibold"
+                                                :style="{
+                                                    'background-color': status === 'pending' ? 'rgba(212, 175, 55, 0.15)' : status === 'incomplete' ? 'rgba(220, 38, 38, 0.15)' : 'rgba(34, 197, 94, 0.15)',
+                                                    'color': status === 'pending' ? '#D4AF37' : status === 'incomplete' ? '#f87171' : '#4ade80',
+                                                    'border': '1px solid ' + (status === 'pending' ? 'rgba(212, 175, 55, 0.4)' : status === 'incomplete' ? 'rgba(220, 38, 38, 0.4)' : 'rgba(34, 197, 94, 0.4)')
+                                                }"
+                                                x-text="status.charAt(0).toUpperCase() + status.slice(1)">
+                                            </span>
+
+                                            <button x-show="status === 'pending'" @click="status = 'incomplete'"
+                                                class="text-xs underline text-red-600">
+                                                Mark Incomplete
+                                            </button>
+
+                                            <button x-show="status === 'incomplete'" @click="status = 'done'"
+                                                class="text-xs underline text-green-600">
+                                                Mark Done
+                                            </button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             @endfor
                         </div>
