@@ -24,9 +24,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/skillselection', function () {
+    return view('skillselection');
+})->middleware(['auth', 'verified'])->name('skillselection');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
