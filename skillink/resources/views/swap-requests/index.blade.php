@@ -22,14 +22,11 @@
             background-color: #0B0A09;
             color: #D4AF37;
         }
-<<<<<<< HEAD
-        
-=======
+
         .tab-btn {
             background-color: #1f1e1c;
             border: 1px solid #cdac40;
         }
->>>>>>> ada177ada1a6e864f77558e92bfb58b03645f664
     </style>
 
     <div class="py-8 max-w-5xl mx-auto px-4" style="background-color: #0B0A09; min-height: 100vh;" x-data="{ activeTab: 'received' }">
