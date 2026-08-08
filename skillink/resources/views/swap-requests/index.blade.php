@@ -27,6 +27,8 @@
             background-color: #1f1e1c;
             border: 1px solid #cdac40;
             color: #c9bd9a;
+            border-radius: 0.55rem;
+            padding: 0.75rem 1rem;
         }
     </style>
 

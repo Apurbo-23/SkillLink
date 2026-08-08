@@ -52,8 +52,32 @@
         {{-- Upcoming sessions preview --}}
         <div class="p-6 rounded" style="background-color:#121110; border:1px solid rgba(212,175,55,0.15);">
             <h3 class="font-semibold mb-3" style="color:#D4AF37;">Upcoming Sessions</h3>
-           
-            
+            @if (isset($upcomingSessions) && $upcomingSessions->isNotEmpty())
+                <div class="space-y-4">
+                    @foreach ($upcomingSessions as $session)
+                        <div class="p-4 rounded" style="background-color:#0B0A09; border:1px solid rgba(212,175,55,0.12);">
+                            <div class="flex items-center justify-between gap-4">
+                                <div>
+                                    <div style="color:#c9bd9a; font-size:0.9rem;">With</div>
+                                    <div style="color:#e8dfc8; font-weight:600;">
+                                        {{ $session->requester_id === auth()->id() ? $session->provider->name : $session->requester->name }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="color:#c9bd9a; font-size:0.9rem;">When</div>
+                                    <div style="color:#e8dfc8; font-weight:600;">{{ $session->scheduled_at->format('M d, Y g:i A') }}</div>
+                                </div>
+                                <div>
+                                    <div style="color:#c9bd9a; font-size:0.9rem;">Duration</div>
+                                    <div style="color:#e8dfc8; font-weight:600;">{{ $session->duration_minutes }} min</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <p style="color:#9a8a6a;">No upcoming confirmed sessions yet.</p>
+            @endif
         </div>
 
     </div>

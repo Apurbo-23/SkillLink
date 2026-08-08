@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\ListingController;
+use App\Models\Booking;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SwapRequestController;
 use App\Http\Controllers\MessageController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 
@@ -29,7 +31,17 @@ Route::get('/skillselection', function () {
 })->middleware(['auth', 'verified'])->name('skillselection');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $upcomingSessions = Booking::with(['requester', 'provider'])
+        ->where(function ($query) {
+            $query->where('requester_id', Auth::id())
+                  ->orWhere('provider_id', Auth::id());
+        })
+        ->where('status', 'confirmed')
+        ->where('scheduled_at', '>=', now())
+        ->orderBy('scheduled_at')
+        ->get();
+
+    return view('dashboard', compact('upcomingSessions'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
