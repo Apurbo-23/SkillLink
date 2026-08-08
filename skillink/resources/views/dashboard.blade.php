@@ -53,9 +53,9 @@
         <div class="p-6 rounded" style="background-color:#121110; border:1px solid rgba(212,175,55,0.15);">
             <h3 class="font-semibold mb-3" style="color:#D4AF37;">Upcoming Sessions</h3>
             @if (isset($upcomingSessions) && $upcomingSessions->isNotEmpty())
-                <div class="space-y-4">
+                <div class="overflow-hidden rounded-lg border" style="border-color: #D4AF37; background-color: #0B0A09;">
                     @foreach ($upcomingSessions as $session)
-                        <div class="p-4 rounded" style="background-color:#0B0A09; border:1px solid rgba(212,175,55,0.12);">
+                        <div class="p-4 rounded" style="background-color:#0B0A09; border:1px solid rgb(212, 175, 55);">
                             <div class="flex items-center justify-between gap-4">
                                 <div>
                                     <div style="color:#c9bd9a; font-size:0.9rem;">With</div>
