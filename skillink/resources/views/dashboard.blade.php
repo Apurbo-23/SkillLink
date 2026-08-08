@@ -134,6 +134,27 @@
                         {{ __('You\'re logged in! :name', ['name' => Auth::user()->name]) }}
                     </p>
 
+                    {{-- ── PUBLIC PROFILE SHARE CARD ── --}}
+                    <div class="panel mb-6">
+                        <h3 class="panel-title">Your public profile</h3>
+                        <p class="text-sm mt-2" style="color:#9a8a6a;">
+                            Anyone with this link can view your skills, portfolio, ratings, and endorsements &mdash; no login required.
+                        </p>
+                        <div class="mt-3 flex items-center gap-2">
+                            <input type="text" readonly id="public-profile-url" value="{{ Auth::user()->publicProfileUrl() }}"
+                                class="flex-1 rounded border px-3 py-2 text-sm"
+                                style="background-color:#0B0A09; color:#e8dfc8; border-color:rgba(212,175,55,0.3);">
+                            <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('public-profile-url').value); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 1500);"
+                                class="px-3 py-2 rounded font-semibold text-sm" style="background-color:#D4AF37; color:#0B0A09;">
+                                Copy
+                            </button>
+                            <a href="{{ Auth::user()->publicProfileUrl() }}" target="_blank"
+                                class="px-3 py-2 rounded font-semibold text-sm border" style="border-color:#D4AF37; color:#D4AF37;">
+                                View
+                            </a>
+                        </div>
+                    </div>
+
                     {{-- ── TAB BUTTONS ── --}}
                     <div class="grid grid-cols-2 gap-3 mb-6">
                         <button
@@ -205,38 +226,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                <!-- STATUS INDICATOR -->
-                                    <div x-data="{ status: 'pending' }" class="border-t pt-3 mt-3" style="border-color: rgba(212, 175, 55, 0.15);">
-                                        <div class="flex items-center gap-3">
-                                            <!-- <span class="px-2 py-1 text-xs rounded font-semibold"
-                                                :class="{
-                                                    'bg-orange-100 text-orange-700': status === 'pending',
-                                                    'bg-red-100 text-red-700': status === 'incomplete',
-                                                    'bg-green-100 text-green-700': status === 'done'
-                                                }"
-                                                x-text="status.charAt(0).toUpperCase() + status.slice(1)">
-                                            </span> -->
-                                            <span class="px-2 py-1 text-xs rounded font-semibold"
-                                                :style="{
-                                                    'background-color': status === 'pending' ? 'rgba(212, 175, 55, 0.15)' : status === 'incomplete' ? 'rgba(220, 38, 38, 0.15)' : 'rgba(34, 197, 94, 0.15)',
-                                                    'color': status === 'pending' ? '#D4AF37' : status === 'incomplete' ? '#f87171' : '#4ade80',
-                                                    'border': '1px solid ' + (status === 'pending' ? 'rgba(212, 175, 55, 0.4)' : status === 'incomplete' ? 'rgba(220, 38, 38, 0.4)' : 'rgba(34, 197, 94, 0.4)')
-                                                }"
-                                                x-text="status.charAt(0).toUpperCase() + status.slice(1)">
-                                            </span>
-
-                                            <button x-show="status === 'pending'" @click="status = 'incomplete'"
-                                                class="text-xs underline text-red-600">
-                                                Mark Incomplete
-                                            </button>
-
-                                            <button x-show="status === 'incomplete'" @click="status = 'done'"
-                                                class="text-xs underline text-green-600">
-                                                Mark Done
-                                            </button>
-                                        </div>
-                                    </div>
-
                                 </div>
                             @endfor
                         </div>

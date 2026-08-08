@@ -3,11 +3,16 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SwapRequestController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Public - no login required. Anyone with the link can view it.
+Route::get('/u/{slug}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -37,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/swap-requests/{swapRequest}/reject', [SwapRequestController::class, 'reject'])->name('swap-requests.reject');
     Route::patch('/swap-requests/{swapRequest}/cancel', [SwapRequestController::class, 'cancel'])->name('swap-requests.cancel');
     Route::patch('/swap-requests/{swapRequest}/complete', [SwapRequestController::class, 'complete'])->name('swap-requests.complete');
+
+    Route::post('/swap-requests/{swapRequest}/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/swap-requests/{swapRequest}/messages/poll', [MessageController::class, 'poll'])->name('messages.poll');
+    Route::get('/messages/{message}/download', [MessageController::class, 'download'])->name('messages.download');
 });
 
 require __DIR__.'/auth.php';
