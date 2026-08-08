@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\ListingController;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SwapRequestController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,6 +28,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::patch('/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.status');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
+    Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
+    Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 });
 
 Route::middleware(['auth'])->group(function () {

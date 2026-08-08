@@ -47,6 +47,9 @@
                     <x-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
                         {{ __('Swaps') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('listings.index')" :active="request()->routeIs('listings.*')">
+                        {{ __('Listings') }}
+                    </x-nav-link>
                 </div>
             </div>
 
