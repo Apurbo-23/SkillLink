@@ -26,6 +26,7 @@
         .tab-btn {
             background-color: #1f1e1c;
             border: 1px solid #cdac40;
+            color: #c9bd9a;
         }
     </style>
 
@@ -43,7 +44,7 @@
         <div class="grid grid-cols-2 gap-3 mb-6">
             <button type="button" class="tab-btn" :class="activeTab === 'received' ? 'active' : ''" @click="activeTab = 'received'"
                 style="background-color:#1a1814; border:1.5px solid rgb(187, 154, 47); color:#c9bd9a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
-                :style="activeTab === 'received' ? 'background-color:rgb(26, 25, 23); border-color:#D4AF37; color:rgb(222, 180, 63);' : ''">
+                :style="activeTab === 'received' ? 'background-color:rgb(15, 14, 13); border-color:#D4AF37; color:#D4AF37' : ''">
                 Received ({{ $received->count() }})
             </button>
             <button type="button" class="tab-btn" :class="activeTab === 'sent' ? 'active' : ''" @click="activeTab = 'sent'"

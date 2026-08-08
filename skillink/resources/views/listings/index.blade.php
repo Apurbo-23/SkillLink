@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> ada177ada1a6e864f77558e92bfb58b03645f664
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl leading-tight" style="color: #D4AF37;">Browse Listings</h2>
@@ -27,12 +23,7 @@
             </div>
         @endif
 
-<<<<<<< HEAD
-        <a href="{{ route('listings.create') }}" class="inline-block mb-6 px-4 py-2 rounded font-semibold text-sm"
-            style="background-color: #D4AF37; color: #0B0A09;">
-=======
         <a href="{{ route('listings.create') }}" class="inline-block mb-6 px-3 py-2 rounded font-semibold btn-text" style="background-color: #D4AF37; color: #0B0A09;">
->>>>>>> ada177ada1a6e864f77558e92bfb58b03645f664
             + Post a Listing
         </a>
 
