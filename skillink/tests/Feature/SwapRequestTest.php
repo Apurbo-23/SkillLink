@@ -103,8 +103,8 @@ class SwapRequestTest extends TestCase
 
     public function test_swap_moves_through_all_four_stages_in_order(): void
     {
-        $requester = User::factory()->create();
-        $provider = User::factory()->create();
+        $requester = User::factory()->create(['credits' => 20]);;
+        $provider = User::factory()->create(['credits' => 20]);
         $listing = Listing::factory()->create(['user_id' => $provider->id]);
 
         $this->actingAs($requester)->post(route('swap-requests.store', $listing), [
@@ -130,8 +130,8 @@ class SwapRequestTest extends TestCase
 
     public function test_cannot_complete_a_swap_that_has_not_started(): void
     {
-        $requester = User::factory()->create();
-        $provider = User::factory()->create();
+        $requester = User::factory()->create(['credits' => 20]);
+        $provider = User::factory()->create(['credits' => 20]);
         $listing = Listing::factory()->create(['user_id' => $provider->id]);
 
         $this->actingAs($requester)->post(route('swap-requests.store', $listing), [
@@ -150,8 +150,8 @@ class SwapRequestTest extends TestCase
 
     public function test_only_the_requester_or_provider_can_start_a_swap(): void
     {
-        $requester = User::factory()->create();
-        $provider = User::factory()->create();
+        $requester = User::factory()->create(['credits' => 20]);
+        $provider = User::factory()->create(['credits' => 20]);
         $outsider = User::factory()->create();
         $listing = Listing::factory()->create(['user_id' => $provider->id]);
 

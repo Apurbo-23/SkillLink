@@ -37,12 +37,12 @@
 
         <div class="grid grid-cols-2 gap-3 mb-6">
             <button type="button" class="tab-btn" :class="activeTab === 'received' ? 'active' : ''" @click="activeTab = 'received'"
-                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#9a8a6a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
+                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#c9bd9a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
                 :style="activeTab === 'received' ? 'background-color:rgba(212,175,55,0.12); border-color:#D4AF37; color:#D4AF37;' : ''">
                 Received ({{ $received->count() }})
             </button>
             <button type="button" class="tab-btn" :class="activeTab === 'sent' ? 'active' : ''" @click="activeTab = 'sent'"
-                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#9a8a6a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
+                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#c9bd9a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
                 :style="activeTab === 'sent' ? 'background-color:rgba(212,175,55,0.12); border-color:#D4AF37; color:#D4AF37;' : ''">
                 Sent ({{ $sent->count() }})
             </button>
