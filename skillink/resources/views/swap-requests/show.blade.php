@@ -68,5 +68,7 @@
                 @endif
             </div>
         </div>
+
+        @include('swap-requests.partials.chat')
     </div>
 </x-app-layout>
