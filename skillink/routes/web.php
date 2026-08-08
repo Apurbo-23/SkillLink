@@ -5,6 +5,17 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SwapRequestController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index'])
+        ->name('categories.index');
+
+    Route::get('/categories/{category}', [CategoryController::class, 'show'])
+        ->name('categories.show');
+});
+
 
 Route::get('/', function () {
     return view('welcome');
