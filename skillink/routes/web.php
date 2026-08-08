@@ -1,11 +1,28 @@
 <?php
 
+use App\Http\Controllers\ListingController;
+use App\Models\Booking;
+use App\Models\SwapRequest;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SwapRequestController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PublicProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index'])
+        ->name('categories.index');
+
+    Route::get('/categories/{category}', [CategoryController::class, 'show'])
+        ->name('categories.show');
+});
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,9 +31,32 @@ Route::get('/', function () {
 // Public - no login required. Anyone with the link can view it.
 Route::get('/u/{slug}', [PublicProfileController::class, 'show'])->name('profile.public');
 
+Route::get('/skillselection', function () {
+    return view('skillselection');
+})->middleware(['auth', 'verified'])->name('skillselection');
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $upcomingSessions = Booking::with(['requester', 'provider'])
+        ->where(function ($query) {
+            $query->where('requester_id', Auth::id())
+                  ->orWhere('provider_id', Auth::id());
+        })
+        ->where('status', 'confirmed')
+        ->where('scheduled_at', '>=', now())
+        ->orderBy('scheduled_at')
+        ->get();
+
+    $swapStatuses = SwapRequest::with(['requester', 'provider'])
+        ->where(function ($query) {
+            $query->where('requester_id', Auth::id())
+                  ->orWhere('provider_id', Auth::id());
+        })
+        ->latest()
+        ->get();
+
+    return view('dashboard', compact('upcomingSessions', 'swapStatuses'));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,6 +69,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::patch('/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.status');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/listings', [ListingController::class, 'index'])->name('listings.index');
+    Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
+    Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 });
 
 Route::middleware(['auth'])->group(function () {

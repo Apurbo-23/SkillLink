@@ -45,6 +45,11 @@ class SwapRequest extends Model
         return $this->hasMany(CreditTransaction::class);
     }
 
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class)->orderBy('id');
+    }
+
     public function isPending(): bool
     {
         return $this->status === 'pending';

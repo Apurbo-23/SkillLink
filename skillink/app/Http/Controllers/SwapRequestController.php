@@ -93,7 +93,7 @@ class SwapRequestController extends Controller
             403
         );
 
-        $swapRequest->load(['listing', 'requester', 'provider']);
+        $swapRequest->load(['listing', 'requester', 'provider', 'messages.sender']);
 
         return view('swap-requests.show', compact('swapRequest'));
     }
