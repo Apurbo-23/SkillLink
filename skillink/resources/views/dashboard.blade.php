@@ -23,6 +23,27 @@
             <span style="color:#D4AF37; font-weight:700;">{{ auth()->user()->credits }} credits</span> available.
         </p>
 
+        {{-- Your public profile --}}
+        <div class="p-6 rounded mb-6" style="background-color:#121110; border:1px solid rgba(212,175,55,0.15);">
+            <h3 class="font-semibold mb-2" style="color:#D4AF37;">Your public profile</h3>
+            <p class="text-sm mb-3" style="color:#9a8a6a;">
+                Anyone with this link can view your skills, portfolio, ratings, and endorsements — no login required.
+            </p>
+            <div class="flex items-center gap-2">
+                <input type="text" readonly id="public-profile-url" value="{{ auth()->user()->publicProfileUrl() }}"
+                    class="flex-1 rounded border px-3 py-2 text-sm"
+                    style="background-color:#0B0A09; color:#e8dfc8; border-color:rgba(212,175,55,0.3);">
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('public-profile-url').value); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 1500);"
+                    class="px-3 py-2 rounded font-semibold text-sm" style="background-color:#D4AF37; color:#0B0A09;">
+                    Copy
+                </button>
+                <a href="{{ auth()->user()->publicProfileUrl() }}" target="_blank"
+                    class="px-3 py-2 rounded font-semibold text-sm border" style="border-color:#D4AF37; color:#D4AF37;">
+                    View
+                </a>
+            </div>
+        </div>
+
         <!-- {{-- Quick stats --}}
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             
