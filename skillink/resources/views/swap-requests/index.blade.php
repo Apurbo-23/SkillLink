@@ -37,12 +37,12 @@
 
         <div class="grid grid-cols-2 gap-3 mb-6">
             <button type="button" class="tab-btn" :class="activeTab === 'received' ? 'active' : ''" @click="activeTab = 'received'"
-                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#9a8a6a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
+                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#c9bd9a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
                 :style="activeTab === 'received' ? 'background-color:rgba(212,175,55,0.12); border-color:#D4AF37; color:#D4AF37;' : ''">
                 Received ({{ $received->count() }})
             </button>
             <button type="button" class="tab-btn" :class="activeTab === 'sent' ? 'active' : ''" @click="activeTab = 'sent'"
-                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#9a8a6a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
+                style="background-color:#1a1814; border:1.5px solid rgba(212,175,55,0.2); color:#c9bd9a; border-radius:0.75rem; padding:0.75rem 1rem; font-weight:500;"
                 :style="activeTab === 'sent' ? 'background-color:rgba(212,175,55,0.12); border-color:#D4AF37; color:#D4AF37;' : ''">
                 Sent ({{ $sent->count() }})
             </button>
@@ -69,7 +69,7 @@
                                 </a>
                             </td>
                             <td class="p-3">{{ $swapRequest->credits_amount }}</td>
-                            <td class="p-3"><span class="status-badge">{{ ucfirst($swapRequest->status) }}</span></td>
+                            <td class="p-3"><span class="status-badge">{{ $swapRequest->stageLabel() }}</span></td>
                             <td class="p-3 space-x-2">
                                 @if ($swapRequest->status === 'pending')
                                     <form method="POST" action="{{ route('swap-requests.accept', $swapRequest) }}" class="inline">
@@ -81,6 +81,11 @@
                                         <button style="color:#f5b7b1; font-weight:600;" class="text-sm">Decline</button>
                                     </form>
                                 @elseif ($swapRequest->status === 'accepted')
+                                    <form method="POST" action="{{ route('swap-requests.start', $swapRequest) }}" class="inline">
+                                        @csrf @method('PATCH')
+                                        <button style="color:#D4AF37; font-weight:600;" class="text-sm">Start Swap</button>
+                                    </form>
+                                @elseif ($swapRequest->status === 'in_progress')
                                     <form method="POST" action="{{ route('swap-requests.complete', $swapRequest) }}" class="inline">
                                         @csrf @method('PATCH')
                                         <button style="color:#D4AF37; font-weight:600;" class="text-sm">Mark Completed</button>
@@ -116,7 +121,7 @@
                                 </a>
                             </td>
                             <td class="p-3">{{ $swapRequest->credits_amount }}</td>
-                            <td class="p-3"><span class="status-badge">{{ ucfirst($swapRequest->status) }}</span></td>
+                            <td class="p-3"><span class="status-badge">{{ $swapRequest->stageLabel() }}</span></td>
                             <td class="p-3 space-x-2">
                                 @if ($swapRequest->status === 'pending')
                                     <form method="POST" action="{{ route('swap-requests.cancel', $swapRequest) }}" class="inline">
@@ -124,6 +129,11 @@
                                         <button style="color:#f5b7b1; font-weight:600;" class="text-sm">Cancel</button>
                                     </form>
                                 @elseif ($swapRequest->status === 'accepted')
+                                    <form method="POST" action="{{ route('swap-requests.start', $swapRequest) }}" class="inline">
+                                        @csrf @method('PATCH')
+                                        <button style="color:#D4AF37; font-weight:600;" class="text-sm">Start Swap</button>
+                                    </form>
+                                @elseif ($swapRequest->status === 'in_progress')
                                     <form method="POST" action="{{ route('swap-requests.complete', $swapRequest) }}" class="inline">
                                         @csrf @method('PATCH')
                                         <button style="color:#D4AF37; font-weight:600;" class="text-sm">Mark Completed</button>
