@@ -80,5 +80,46 @@
             @endif
         </div>
 
+        {{-- Swap request status preview --}}
+        <div class="p-6 rounded mt-6" style="background-color:#121110; border:1px solid rgba(212,175,55,0.15);">
+            <h3 class="font-semibold mb-3" style="color:#D4AF37;">Swap Status</h3>
+            @if (isset($swapStatuses) && $swapStatuses->isNotEmpty())
+                <div class="overflow-hidden rounded-lg border" style="border-color: #D4AF37; background-color: #0B0A09;">
+                    <table class="w-full" style="border-collapse: collapse; color: #e8dfc8;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid rgba(212,175,55,0.25); background-color: #121110;">
+                                <th class="p-3 text-left" style="color: #D4AF37;">User</th>
+                                <th class="p-3 text-left" style="color: #D4AF37;">Listing</th>
+                                <th class="p-3 text-left" style="color: #D4AF37;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($swapStatuses as $swapRequest)
+                                <tr style="border-bottom: 1px solid rgba(212,175,55,0.16);">
+                                    <td class="p-3">
+                                        @if ($swapRequest->requester_id === auth()->id())
+                                            {{ $swapRequest->provider->name }}
+                                        @else
+                                            {{ $swapRequest->requester->name }}
+                                        @endif
+                                    </td>
+                                    <td class="p-3">
+                                        {{ $swapRequest->listing->skill_offered }}
+                                    </td>
+                                    <td class="p-3">
+                                        <span class="px-2 py-1 text-xs rounded" style="border: 1px solid rgba(212,175,55,0.25); background-color: #0B0A09; color: #D4AF37;">
+                                            {{ $swapRequest->stageLabel() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p style="color:#9a8a6a;">No swap status updates yet.</p>
+            @endif
+        </div>
+
     </div>
 </x-app-layout>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ListingController;
 use App\Models\Booking;
+use App\Models\SwapRequest;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
@@ -41,7 +42,15 @@ Route::get('/dashboard', function () {
         ->orderBy('scheduled_at')
         ->get();
 
-    return view('dashboard', compact('upcomingSessions'));
+    $swapStatuses = SwapRequest::with(['requester', 'provider'])
+        ->where(function ($query) {
+            $query->where('requester_id', Auth::id())
+                  ->orWhere('provider_id', Auth::id());
+        })
+        ->latest()
+        ->get();
+
+    return view('dashboard', compact('upcomingSessions', 'swapStatuses'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
