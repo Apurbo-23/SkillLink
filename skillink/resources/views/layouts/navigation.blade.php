@@ -102,6 +102,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
+                {{ __('Sessions') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
+                {{ __('Swaps') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
