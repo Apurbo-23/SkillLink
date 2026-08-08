@@ -5,7 +5,7 @@
 
     <style>
         body,
-        .bg-gray-700 { background-color: #0B0A09 !important; }
+        .bg-gray-100 { background-color: #0B0A09 !important; }
 
         /* ── Main card ── */
         .bg-white {
@@ -23,12 +23,11 @@
             <span style="color:#D4AF37; font-weight:700;">{{ auth()->user()->credits }} credits</span> available.
         </p>
 
-        {{-- Quick stats --}}
+        <!-- {{-- Quick stats --}}
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             
             
-            
-        </div>
+        </div> -->
 
         {{-- Quick actions --}}
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
