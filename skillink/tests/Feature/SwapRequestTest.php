@@ -79,7 +79,7 @@ class SwapRequestTest extends TestCase
         $this->assertEquals('rejected', $swapRequest->fresh()->status);
     }
 
-    public function test_completing_an_accepted_swap_pays_the_provider(): void
+    public function test_completing_an_in_progress_swap_pays_the_provider(): void
     {
         $requester = User::factory()->create(['credits' => 20]);
         $provider = User::factory()->create(['credits' => 20]);
@@ -93,10 +93,77 @@ class SwapRequestTest extends TestCase
         $cost = $swapRequest->credits_amount;
 
         $this->actingAs($provider)->patch(route('swap-requests.accept', $swapRequest));
+        $this->actingAs($provider)->patch(route('swap-requests.start', $swapRequest));
         $this->actingAs($provider)->patch(route('swap-requests.complete', $swapRequest));
 
         $this->assertEquals('completed', $swapRequest->fresh()->status);
         $this->assertEquals(20 + $cost, $provider->fresh()->credits);
         $this->assertEquals(20 - $cost, $requester->fresh()->credits);
+    }
+
+    public function test_swap_moves_through_all_four_stages_in_order(): void
+    {
+        $requester = User::factory()->create();
+        $provider = User::factory()->create();
+        $listing = Listing::factory()->create(['user_id' => $provider->id]);
+
+        $this->actingAs($requester)->post(route('swap-requests.store', $listing), [
+            'message' => 'Let’s swap!',
+        ]);
+        $swapRequest = SwapRequest::first();
+
+        $this->assertEquals('pending', $swapRequest->fresh()->status);
+        $this->assertEquals(0, $swapRequest->fresh()->stageIndex());
+
+        $this->actingAs($provider)->patch(route('swap-requests.accept', $swapRequest));
+        $this->assertEquals('accepted', $swapRequest->fresh()->status);
+        $this->assertEquals(1, $swapRequest->fresh()->stageIndex());
+
+        $this->actingAs($requester)->patch(route('swap-requests.start', $swapRequest));
+        $this->assertEquals('in_progress', $swapRequest->fresh()->status);
+        $this->assertEquals(2, $swapRequest->fresh()->stageIndex());
+
+        $this->actingAs($provider)->patch(route('swap-requests.complete', $swapRequest));
+        $this->assertEquals('completed', $swapRequest->fresh()->status);
+        $this->assertEquals(3, $swapRequest->fresh()->stageIndex());
+    }
+
+    public function test_cannot_complete_a_swap_that_has_not_started(): void
+    {
+        $requester = User::factory()->create();
+        $provider = User::factory()->create();
+        $listing = Listing::factory()->create(['user_id' => $provider->id]);
+
+        $this->actingAs($requester)->post(route('swap-requests.store', $listing), [
+            'message' => 'Let’s swap!',
+        ]);
+        $swapRequest = SwapRequest::first();
+
+        $this->actingAs($provider)->patch(route('swap-requests.accept', $swapRequest));
+
+        // Still just "accepted" - hasn't been started yet.
+        $response = $this->actingAs($provider)->patch(route('swap-requests.complete', $swapRequest));
+
+        $response->assertStatus(400);
+        $this->assertEquals('accepted', $swapRequest->fresh()->status);
+    }
+
+    public function test_only_the_requester_or_provider_can_start_a_swap(): void
+    {
+        $requester = User::factory()->create();
+        $provider = User::factory()->create();
+        $outsider = User::factory()->create();
+        $listing = Listing::factory()->create(['user_id' => $provider->id]);
+
+        $this->actingAs($requester)->post(route('swap-requests.store', $listing), [
+            'message' => 'Let’s swap!',
+        ]);
+        $swapRequest = SwapRequest::first();
+        $this->actingAs($provider)->patch(route('swap-requests.accept', $swapRequest));
+
+        $response = $this->actingAs($outsider)->patch(route('swap-requests.start', $swapRequest));
+
+        $response->assertForbidden();
+        $this->assertEquals('accepted', $swapRequest->fresh()->status);
     }
 }

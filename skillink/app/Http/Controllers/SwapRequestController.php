@@ -152,8 +152,25 @@ class SwapRequestController extends Controller
     }
 
     /**
-     * Either side marks an accepted swap as completed; the provider earns
-     * the held credits for delivering the skill.
+     * Either side marks an accepted swap as "in progress" once the work
+     * has actually started, moving it into the next visible stage.
+     */
+    public function start(Request $request, SwapRequest $swapRequest)
+    {
+        abort_unless(
+            in_array($request->user()->id, [$swapRequest->requester_id, $swapRequest->provider_id]),
+            403
+        );
+        abort_unless($swapRequest->isAccepted(), 400, 'Only accepted swaps can be started.');
+
+        $swapRequest->update(['status' => 'in_progress']);
+
+        return back()->with('success', 'Swap marked as in progress.');
+    }
+
+    /**
+     * Either side marks an in-progress swap as completed; the provider
+     * earns the held credits for delivering the skill.
      */
     public function complete(Request $request, SwapRequest $swapRequest)
     {
@@ -161,7 +178,7 @@ class SwapRequestController extends Controller
             in_array($request->user()->id, [$swapRequest->requester_id, $swapRequest->provider_id]),
             403
         );
-        abort_unless($swapRequest->isAccepted(), 400, 'Only accepted swaps can be marked complete.');
+        abort_unless($swapRequest->isInProgress(), 400, 'Only swaps in progress can be marked complete.');
 
         $swapRequest->update(['status' => 'completed']);
 

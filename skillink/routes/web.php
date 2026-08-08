@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/swap-requests', [SwapRequestController::class, 'index'])->name('swap-requests.index');
     Route::get('/swap-requests/{swapRequest}', [SwapRequestController::class, 'show'])->name('swap-requests.show');
     Route::patch('/swap-requests/{swapRequest}/accept', [SwapRequestController::class, 'accept'])->name('swap-requests.accept');
+    Route::patch('/swap-requests/{swapRequest}/start', [SwapRequestController::class, 'start'])->name('swap-requests.start');
     Route::patch('/swap-requests/{swapRequest}/reject', [SwapRequestController::class, 'reject'])->name('swap-requests.reject');
     Route::patch('/swap-requests/{swapRequest}/cancel', [SwapRequestController::class, 'cancel'])->name('swap-requests.cancel');
     Route::patch('/swap-requests/{swapRequest}/complete', [SwapRequestController::class, 'complete'])->name('swap-requests.complete');
