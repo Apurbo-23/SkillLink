@@ -23,11 +23,6 @@
             <span style="color:#D4AF37; font-weight:700;">{{ auth()->user()->credits }} credits</span> available.
         </p>
 
-        <!-- {{-- Quick stats --}}
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            
-            
-        </div> -->
 
         {{-- Quick actions --}}
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
