@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SwapRequestController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -26,6 +27,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Public - no login required. Anyone with the link can view it.
+Route::get('/u/{slug}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 Route::get('/skillselection', function () {
     return view('skillselection');

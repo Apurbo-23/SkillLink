@@ -41,11 +41,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
+                        {{ __('Swap Request') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
                         {{ __('Sessions') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
-                        {{ __('Swaps') }}
                     </x-nav-link>
                     <x-nav-link :href="route('listings.index')" :active="request()->routeIs('listings.*')">
                         {{ __('Listings') }}
@@ -110,7 +110,7 @@
                 {{ __('Sessions') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
-                {{ __('Swaps') }}
+                {{ __('Swap Requests') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('skillselection')" :active="request()->routeIs('skillselection')">
                 {{ __('Skill Selection') }}
