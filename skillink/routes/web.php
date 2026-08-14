@@ -12,6 +12,14 @@ use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SkillSelectionController;
+
+use App\Http\Controllers\SkillOfferingController;
+Route::middleware(['auth'])->group(function () {
+    Route::post('/skill-offerings', [SkillOfferingController::class, 'store'])->name('skill-offerings.store');
+    Route::post('/skill-offerings/{skillOffering}/attachments', [SkillOfferingController::class, 'uploadAttachment'])->name('skill-offerings.attachments.store');
+    Route::delete('/attachments/{attachment}', [SkillOfferingController::class, 'deleteAttachment'])->name('attachments.destroy');
+});
 
 
 Route::middleware('auth')->group(function () {
@@ -31,9 +39,10 @@ Route::get('/', function () {
 // Public - no login required. Anyone with the link can view it.
 Route::get('/u/{slug}', [PublicProfileController::class, 'show'])->name('profile.public');
 
-Route::get('/skillselection', function () {
-    return view('skillselection');
-})->middleware(['auth', 'verified'])->name('skillselection');
+
+Route::get('/skillselection', [SkillSelectionController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('skillselection');
 
 Route::get('/dashboard', function () {
     $upcomingSessions = Booking::with(['requester', 'provider'])
