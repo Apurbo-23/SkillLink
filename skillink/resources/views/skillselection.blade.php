@@ -242,7 +242,15 @@
                     {{-- ── OFFERING PANEL ── --}}
                     <div x-show="activeTab === 'offering'" x-transition class="panel">
                         <h3 class="panel-title">Skills you can offer</h3>
-                        <div class="mt-4 grid gap-4 md:grid-cols-2" x-data="{
+
+                        @if (session('success'))
+                            <div class="mt-3 p-3 rounded text-sm" style="background-color:#1a1814; color:#D4AF37; border:1px solid rgba(212,175,55,0.25);">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        {{-- Add a new skill offering --}}
+                        <form method="POST" action="{{ route('skill-offerings.store') }}" class="mt-4 grid gap-4 md:grid-cols-2 skill-card" x-data="{
                             skillOptions: {
                                 Programming: ['Python', 'C', 'Java', 'JavaScript', 'PHP'],
                                 Design: ['UI/UX', 'Figma', 'Illustration', 'Branding', 'Motion'],
@@ -252,39 +260,80 @@
                             selectedCategory: 'Programming',
                             selectedSkill: 'Python'
                         }">
+                            @csrf
                             <div>
-                                <label for="skill-category"
-                                    class="mb-1 block text-sm font-medium"
-                                    style="color:#9a8a6a;">
-                                    Skill Category
-                                </label>
-                                <select
-                                    id="skill-category"
-                                    x-model="selectedCategory"
-                                    @change="selectedSkill = skillOptions[selectedCategory][0]"
-                                >
+                                <label class="mb-1 block text-sm font-medium" style="color:#9a8a6a;">Skill Category</label>
+                                <select name="category" x-model="selectedCategory" @change="selectedSkill = skillOptions[selectedCategory][0]">
                                     <option>Programming</option>
                                     <option>Design</option>
                                     <option>Marketing</option>
                                     <option>Languages</option>
                                 </select>
                             </div>
-
                             <div>
-                                <label for="skill-name"
-                                    class="mb-1 block text-sm font-medium"
-                                    style="color:#9a8a6a;">
-                                    Skill Name
-                                </label>
-                                <select id="skill-name" x-model="selectedSkill">
+                                <label class="mb-1 block text-sm font-medium" style="color:#9a8a6a;">Skill Name</label>
+                                <select name="skill_name" x-model="selectedSkill">
                                     <template x-for="skill in skillOptions[selectedCategory]" :key="skill">
                                         <option :value="skill" x-text="skill"></option>
                                     </template>
                                 </select>
                             </div>
+                            <div class="md:col-span-2">
+                                <button type="submit" class="px-4 py-2 rounded font-semibold text-sm" style="background-color:#D4AF37; color:#0B0A09;">
+                                    + Add Skill
+                                </button>
+                            </div>
+                        </form>
+
+                        {{-- List existing offerings, each with sample-work upload --}}
+                        <div class="mt-6 space-y-4">
+                            @forelse ($offerings as $offering)
+                                <div class="skill-card">
+                                    <p class="font-semibold" style="color:#e8dfc8;">{{ $offering->category }} — {{ $offering->skill_name }}</p>
+
+                                    <div class="mt-3 pt-3" style="border-top:1px solid rgba(212,175,55,0.15);">
+                                        <p class="text-sm font-medium mb-2" style="color:#9a8a6a;">Sample work (optional)</p>
+
+                                        <form method="POST" action="{{ route('skill-offerings.attachments.store', $offering->id) }}" enctype="multipart/form-data" class="flex items-center gap-2 mb-2">
+                                            @csrf
+                                            <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png"
+                                                style="background-color:#1a1814; border:1px solid rgba(212,175,55,0.25); color:#e8dfc8; border-radius:0.375rem; padding:0.4rem;">
+                                            <button type="submit" class="text-xs font-semibold" style="color:#D4AF37;">Upload</button>
+                                        </form>
+
+                                        <form method="POST" action="{{ route('skill-offerings.attachments.store', $offering->id) }}" class="flex items-center gap-2 mb-3">
+                                            @csrf
+                                            <input type="url" name="link" placeholder="https://your-portfolio-link.com"
+                                                style="background-color:#1a1814; border:1px solid rgba(212,175,55,0.25); color:#e8dfc8; border-radius:0.375rem; padding:0.4rem 0.6rem; flex:1;">
+                                            <button type="submit" class="text-xs font-semibold" style="color:#D4AF37;">Add Link</button>
+                                        </form>
+
+                                        <div class="space-y-1">
+                                            @foreach ($offering->attachments as $attachment)
+                                                <div class="flex items-center justify-between text-sm" style="color:#c9bd9a;">
+                                                    @if ($attachment->type === 'file')
+                                                        <a href="{{ Storage::url($attachment->path) }}" target="_blank" style="color:#D4AF37;">
+                                                            📎 {{ $attachment->original_name }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ $attachment->url }}" target="_blank" style="color:#D4AF37;">
+                                                            🔗 {{ $attachment->url }}
+                                                        </a>
+                                                    @endif
+                                                    <form method="POST" action="{{ route('attachments.destroy', $attachment) }}">
+                                                        @csrf @method('DELETE')
+                                                        <button class="text-xs" style="color:#f5b7b1;">Remove</button>
+                                                    </form>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <p style="color:#9a8a6a;">No skills added yet. Add one above.</p>
+                            @endforelse
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
