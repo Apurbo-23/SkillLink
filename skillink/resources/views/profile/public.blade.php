@@ -45,19 +45,66 @@
         </div>
 
         {{-- ── Skills ── --}}
-        <div class="p-6 rounded-lg border mb-6" style="background-color:#121110; border-color:rgba(212,175,55,0.3);">
+        <div class="p-6 rounded-lg border mb-6"
+            style="background-color:#121110; border-color:rgba(212,175,55,0.3);">
+
             <h2 class="font-semibold mb-3" style="color:#D4AF37;">Skills</h2>
+
             @forelse ($listings as $listing)
-                <div class="mb-3 p-3 rounded" style="background-color:#0f0e0c; border:1px solid rgba(212,175,55,0.12);">
-                    <span style="color:#D4AF37; font-weight:600;">{{ $listing->skill_offered }}</span>
-                    <span style="color:#9a8a6a;"> for </span>
-                    <span style="color:#e8dfc8;">{{ $listing->skill_wanted }}</span>
-                    @if ($listing->category)
-                        <span class="ml-2 text-xs" style="color:#9a8a6a;">&middot; {{ $listing->category }}</span>
-                    @endif
+
+                <div class="mb-3 p-3 rounded"
+                    style="background-color:#0f0e0c; border:1px solid rgba(212,175,55,0.12);">
+
+                    <div>
+                        <span style="color:#D4AF37; font-weight:600;">
+                            {{ $listing->skill_offered }}
+                        </span>
+
+                        <span style="color:#9a8a6a;"> for </span>
+
+                        <span style="color:#e8dfc8;">
+                            {{ $listing->skill_wanted }}
+                        </span>
+
+                        @if ($listing->category)
+                            <span class="ml-2 text-xs" style="color:#9a8a6a;">
+                                &middot; {{ $listing->category }}
+                            </span>
+                        @endif
+                    </div>
+
+                    @auth
+                        @if (Auth::id() !== $user->id)
+
+                            <form method="POST"
+                                action="{{ route('endorsements.store', $user) }}"
+                                class="mt-3">
+
+                                @csrf
+
+                                <input type="hidden"
+                                    name="skill"
+                                    value="{{ $listing->skill_offered }}">
+
+                                <button type="submit"
+                                        class="px-3 py-2 rounded text-sm"
+                                        style="background-color:#D4AF37; color:#0B0A09; font-weight:600;">
+                                    Endorse {{ $listing->skill_offered }}
+                                </button>
+
+                            </form>
+
+                        @endif
+                    @endauth
+
                 </div>
+
             @empty
-                <p class="text-sm" style="color:#9a8a6a;">No active skill listings right now.</p>
+
+                <p class="text-sm" style="color:#9a8a6a;">
+                    No active skill listings right now.
+                </p>
+
             @endforelse
         </div>
 
