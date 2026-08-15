@@ -5,13 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $user->name }} · SkillLink</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .logo-dot {
+        width: 9px; height: 9px;
+        border-radius: 50%;
+        background: rgb(231, 205, 12);
+        display: inline-block;
+        flex-shrink: 0;
+        }
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+    </style>
 </head>
 <body style="background-color:#0B0A09; color:#e8dfc8; min-height:100vh; font-family: Figtree, ui-sans-serif, system-ui;">
 
     <header style="border-bottom:1px solid rgba(212,175,55,0.15); background-color:#0f0e0c;">
         <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="{{ url('/') }}" style="color:#D4AF37; font-weight:700; font-size:1.1rem; text-decoration:none;">
-                &bull; SkillLink
+            <a href="/" class="logo">
+                <span class="logo-dot"></span>SkillLink
             </a>
             @auth
                 <a href="{{ route('dashboard') }}" style="color:#9a8a6a; font-size:0.9rem;">Back to Dashboard</a>
