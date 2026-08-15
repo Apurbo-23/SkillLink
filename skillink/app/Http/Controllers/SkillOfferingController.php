@@ -56,6 +56,21 @@ class SkillOfferingController extends Controller
         return back()->with('success', 'Sample work added.');
     }
 
+    public function destroy(Request $request, SkillOffering $skillOffering)
+    {
+        abort_unless($skillOffering->user_id === $request->user()->id, 403);
+
+        foreach ($skillOffering->attachments as $attachment) {
+            if ($attachment->path) {
+                Storage::disk('public')->delete($attachment->path);
+            }
+        }
+
+        $skillOffering->delete();
+
+        return back()->with('success', 'Skill removed.');
+    }
+
     public function deleteAttachment(Request $request, SkillOfferingAttachment $attachment)
     {
         abort_unless($attachment->skillOffering->user_id === $request->user()->id, 403);

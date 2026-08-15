@@ -50,7 +50,11 @@
                     <x-nav-link :href="route('listings.index')" :active="request()->routeIs('listings.*')">
                         {{ __('Listings') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('skillselection')" :active="request()->routeIs('skillselection')">
+                    <x-nav-link
+                        :href="route('skillselection')"
+                        :active="request()->routeIs('skillselection')"
+                        onclick="localStorage.setItem('skilllink_active_tab', 'searching');"
+                    >
                         {{ __('Skill Selection') }}
                     </x-nav-link>
                 </div>
@@ -121,7 +125,11 @@
             <x-responsive-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
                 {{ __('Swap Requests') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('skillselection')" :active="request()->routeIs('skillselection')">
+            <x-responsive-nav-link
+                :href="route('skillselection')"
+                :active="request()->routeIs('skillselection')"
+                onclick="localStorage.setItem('skilllink_active_tab', 'searching');"
+            >
                 {{ __('Skill Selection') }}
             </x-responsive-nav-link>
         </div>

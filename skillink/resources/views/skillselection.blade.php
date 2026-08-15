@@ -128,7 +128,13 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color:#121110; border:1px solid rgba(212,175,55,0.15);">
-                <div class="p-6" x-data="{ activeTab: 'searching' }">
+                <div class="p-6" x-data="{
+                    activeTab: localStorage.getItem('skilllink_active_tab') || 'searching',
+                    setTab(tab) {
+                        this.activeTab = tab;
+                        localStorage.setItem('skilllink_active_tab', tab);
+                    }
+                }">
 
 
                     {{-- ── TAB BUTTONS ── --}}
@@ -137,7 +143,7 @@
                             type="button"
                             class="tab-btn"
                             :class="activeTab === 'searching' ? 'active' : ''"
-                            @click="activeTab = 'searching'"
+                            @click="setTab('searching')"
                         >
                             Skills searching for
                         </button>
@@ -146,7 +152,7 @@
                             type="button"
                             class="tab-btn"
                             :class="activeTab === 'offering' ? 'active' : ''"
-                            @click="activeTab = 'offering'"
+                            @click="setTab('offering')"
                         >
                             Skill to offer
                         </button>
@@ -280,7 +286,7 @@
                             </div>
                             <div class="md:col-span-2">
                                 <button type="submit" class="px-4 py-2 rounded font-semibold text-sm" style="background-color:#D4AF37; color:#0B0A09;">
-                                    + Add Skill
+                                    + Add Skill Sample
                                 </button>
                             </div>
                         </form>
@@ -289,7 +295,17 @@
                         <div class="mt-6 space-y-4">
                             @forelse ($offerings as $offering)
                                 <div class="skill-card">
-                                    <p class="font-semibold" style="color:#e8dfc8;">{{ $offering->category }} — {{ $offering->skill_name }}</p>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <p class="font-semibold" style="color:#e8dfc8;">{{ $offering->category }} — {{ $offering->skill_name }}</p>
+
+                                        <form method="POST" action="{{ route('skill-offerings.destroy', $offering) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-xs font-semibold" style="color:#f5b7b1;">
+                                                Remove Skill Sample
+                                            </button>
+                                        </form>
+                                    </div>
 
                                     <div class="mt-3 pt-3" style="border-top:1px solid rgba(212,175,55,0.15);">
                                         <p class="text-sm font-medium mb-2" style="color:#9a8a6a;">Sample work (optional)</p>

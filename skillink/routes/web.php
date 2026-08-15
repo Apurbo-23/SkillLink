@@ -17,6 +17,7 @@ use App\Http\Controllers\SkillSelectionController;
 use App\Http\Controllers\SkillOfferingController;
 Route::middleware(['auth'])->group(function () {
     Route::post('/skill-offerings', [SkillOfferingController::class, 'store'])->name('skill-offerings.store');
+    Route::delete('/skill-offerings/{skillOffering}', [SkillOfferingController::class, 'destroy'])->name('skill-offerings.destroy');
     Route::post('/skill-offerings/{skillOffering}/attachments', [SkillOfferingController::class, 'uploadAttachment'])->name('skill-offerings.attachments.store');
     Route::delete('/attachments/{attachment}', [SkillOfferingController::class, 'deleteAttachment'])->name('attachments.destroy');
 });
