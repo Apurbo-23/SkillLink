@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkillSelectionController;
+use App\Http\Controllers\EndorsementController;
 
 use App\Http\Controllers\SkillOfferingController;
 Route::middleware(['auth'])->group(function () {
@@ -28,6 +29,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])
         ->name('categories.show');
+    Route::middleware('auth')->group(function () {
+    Route::post('/users/{user}/endorse', [EndorsementController::class, 'store'])
+        ->name('endorsements.store');
+});
 });
 
 
