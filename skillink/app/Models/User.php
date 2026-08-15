@@ -110,6 +110,11 @@ class User extends Authenticatable
         return $this->hasMany(PortfolioItem::class);
     }
 
+    public function skillOfferings(): HasMany
+    {
+        return $this->hasMany(SkillOffering::class);
+    }
+
     /**
      * Average rating out of 5, or null if nobody's rated this user yet.
      */

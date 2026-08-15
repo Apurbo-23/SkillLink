@@ -44,6 +44,10 @@ Route::get('/skillselection', [SkillSelectionController::class, 'index'])
     ->middleware(['auth'])
     ->name('skillselection');
 
+Route::get('/search-skills', [SkillSelectionController::class, 'search'])
+    ->middleware(['auth'])
+    ->name('search-skills');
+
 Route::get('/dashboard', function () {
     $upcomingSessions = Booking::with(['requester', 'provider'])
         ->where(function ($query) {
