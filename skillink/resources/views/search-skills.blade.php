@@ -156,7 +156,7 @@
                         <h3 class="search-title">Filter by Skill Offering</h3>
                         
                         <form method="GET" action="{{ route('search-skills') }}" class="grid gap-4 md:grid-cols-2 items-end">
-                            <!-- <div>
+                            <div>
                                 <label for="category" class="mb-1 block text-sm font-medium" style="color:#9a8a6a;">
                                     Skill Category
                                 </label>
@@ -167,12 +167,12 @@
                                     <option value="Marketing" @selected($selectedCategory === 'Marketing')>Marketing</option>
                                     <option value="Languages" @selected($selectedCategory === 'Languages')>Languages</option>
                                 </select>
-                            </div> -->
+                            </div>
 
                             <div>
-                                <!-- <label for="skill" class="mb-1 block text-sm font-medium" style="color:#9a8a6a;">
+                                <label for="skill" class="mb-1 block text-sm font-medium" style="color:#9a8a6a;">
                                     Skill Name
-                                </label> -->
+                                </label>
                                 <input 
                                     type="text" 
                                     id="skill" 
