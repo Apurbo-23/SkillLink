@@ -57,6 +57,12 @@
                     >
                         {{ __('Skill Selection') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')">
+                        {{ __('Availability') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                        {{ __('Categories') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -102,6 +108,41 @@
                 </x-dropdown>
             </div>
 
+            <!--notification bell icon -->
+            <div class="hidden sm:flex sm:items-center sm:ms-4" x-data="{ open: false }">
+                <div class="relative">
+                    <button @click="open = !open" class="relative p-2 rounded-md" style="color: #D4AF37;" 
+                            @click="open = !open; if (open) fetch('{{ route('notifications.mark-read') }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        @if (auth()->user()->unreadNotifications->count())
+                            <span class="absolute -top-1 -right-1 text-xs rounded-full px-1.5"
+                                style="background-color:#D4AF37; color:#0B0A09;">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </span>
+                        @endif
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute right-0 mt-2 w-80 rounded shadow-lg z-50"
+                        style="background-color:#121110; border:1px solid rgba(212,175,55,0.25);">
+                        <div class="p-3 max-h-96 overflow-y-auto">
+                            @forelse (auth()->user()->notifications->take(10) as $notification)
+                                <a href="{{ $notification->data['url'] ?? '#' }}"
+                                    class="block p-2 mb-1 rounded text-sm"
+                                    style="background-color: {{ $notification->read_at ? 'transparent' : 'rgba(212,175,55,0.08)' }}; color:#e8dfc8;">
+                                    {{ $notification->data['message'] ?? 'Notification' }}
+                                    <div class="text-xs mt-1" style="color:#9a8a6a;">{{ $notification->created_at->diffForHumans() }}</div>
+                                </a>
+                            @empty
+                                <p class="text-sm p-2" style="color:#9a8a6a;">No notifications yet.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -115,47 +156,32 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            
-            <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
-                {{ __('Sessions') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
-                {{ __('Swap Requests') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link
-                :href="route('skillselection')"
-                :active="request()->routeIs('skillselection')"
-                onclick="localStorage.setItem('skilllink_active_tab', 'searching');"
-            >
-                {{ __('Skill Selection') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
+<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div class="pt-2 pb-3 space-y-1">
+        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            {{ __('Dashboard') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('listings.index')" :active="request()->routeIs('listings.*')">
+            {{ __('Listings') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('bookings.index')" :active="request()->routeIs('bookings.*')">
+            {{ __('Sessions') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('swap-requests.index')" :active="request()->routeIs('swap-requests.*')">
+            {{ __('Swap Requests') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link
+            :href="route('skillselection')"
+            :active="request()->routeIs('skillselection')"
+            onclick="localStorage.setItem('skilllink_active_tab', 'searching');"
+        >
+            {{ __('Skill Selection') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')">
+            {{ __('Availability') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+            {{ __('Categories') }}
+        </x-responsive-nav-link>
     </div>
 </nav>

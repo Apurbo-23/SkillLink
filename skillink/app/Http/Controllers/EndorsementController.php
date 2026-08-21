@@ -7,6 +7,8 @@ use App\Models\SwapRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use App\Notifications\EndorsementReceived;
+
 class EndorsementController extends Controller
 {
     public function store(Request $request, User $user)
@@ -63,6 +65,9 @@ class EndorsementController extends Controller
             'endorsed_user_id' => $user->id,
             'skill' => $skill,
         ]);
+
+        // $endorsedUser = $endorsement->endorsedUser; // adjust to your actual relationship name
+        // $endorsedUser->notify(new EndorsementReceived($endorsement));
 
         return back()->with('success', "You endorsed {$user->name} for {$skill}.");
     }

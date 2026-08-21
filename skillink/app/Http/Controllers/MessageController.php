@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use App\Notifications\NewMessageReceived;
+
 class MessageController extends Controller
 {
     /**
@@ -55,6 +57,12 @@ class MessageController extends Controller
         }
 
         $message = Message::create($data)->load('sender');
+
+        $recipient = $request->user()->id === $swapRequest->requester_id
+            ? $swapRequest->provider
+            : $swapRequest->requester;
+
+        $recipient->notify(new NewMessageReceived($message));
 
         if ($request->wantsJson()) {
             return response()->json(['message' => $this->formatMessage($message)]);

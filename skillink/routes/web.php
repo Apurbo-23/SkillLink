@@ -24,18 +24,24 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+use App\Http\Controllers\AvailabilityController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/availability', [AvailabilityController::class, 'index'])->name('availability.index');
+    Route::post('/availability', [AvailabilityController::class, 'update'])->name('availability.update');
+});
+
+Route::post('/notifications/mark-read', function (Request $request) {
+    $request->user()->unreadNotifications->markAsRead();
+    return response()->noContent();
+})->middleware('auth')->name('notifications.mark-read');
+
+
 Route::middleware('auth')->group(function () {
-    Route::get('/categories', [CategoryController::class, 'index'])
-        ->name('categories.index');
-
-    Route::get('/categories/{category}', [CategoryController::class, 'show'])
-        ->name('categories.show');
-    Route::middleware('auth')->group(function () {
-    Route::post('/users/{user}/endorse', [EndorsementController::class, 'store'])
-        ->name('endorsements.store');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::post('/users/{user}/endorse', [EndorsementController::class, 'store'])->name('endorsements.store');
 });
-});
-
 
 
 Route::get('/', function () {

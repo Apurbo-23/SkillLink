@@ -7,6 +7,8 @@ use App\Models\SwapRequest;
 use App\Services\CreditService;
 use Illuminate\Http\Request;
 
+use App\Notifications\SwapUpdated;
+
 class SwapRequestController extends Controller
 {
     public function __construct(protected CreditService $credits)
@@ -108,6 +110,12 @@ class SwapRequestController extends Controller
 
         $swapRequest->update(['status' => 'accepted']);
 
+        $otherUser = $request->user()->id === $swapRequest->requester_id
+            ? $swapRequest->provider
+            : $swapRequest->requester;
+
+        $otherUser->notify(new SwapUpdated($swapRequest));
+
         return back()->with('success', 'Swap request accepted.');
     }
 
@@ -120,6 +128,12 @@ class SwapRequestController extends Controller
         abort_unless($swapRequest->isPending(), 400, 'This request is no longer pending.');
 
         $swapRequest->update(['status' => 'rejected']);
+
+        $otherUser = $request->user()->id === $swapRequest->requester_id
+            ? $swapRequest->provider
+            : $swapRequest->requester;
+
+        $otherUser->notify(new SwapUpdated($swapRequest));
 
         $this->credits->refund(
             $swapRequest->requester,
@@ -165,6 +179,12 @@ class SwapRequestController extends Controller
 
         $swapRequest->update(['status' => 'in_progress']);
 
+        $otherUser = $request->user()->id === $swapRequest->requester_id
+            ? $swapRequest->provider
+            : $swapRequest->requester;
+
+        $otherUser->notify(new SwapUpdated($swapRequest));
+
         return back()->with('success', 'Swap marked as in progress.');
     }
 
@@ -181,6 +201,12 @@ class SwapRequestController extends Controller
         abort_unless($swapRequest->isInProgress(), 400, 'Only swaps in progress can be marked complete.');
 
         $swapRequest->update(['status' => 'completed']);
+
+        $otherUser = $request->user()->id === $swapRequest->requester_id
+            ? $swapRequest->provider
+            : $swapRequest->requester;
+
+        $otherUser->notify(new SwapUpdated($swapRequest));
 
         $this->credits->earn(
             $swapRequest->provider,

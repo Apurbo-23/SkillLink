@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Availability;
+
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -103,6 +105,11 @@ class User extends Authenticatable
     public function endorsementsReceived(): HasMany
     {
         return $this->hasMany(Endorsement::class, 'endorsed_user_id');
+    }
+
+        public function availabilities()
+    {
+        return $this->hasMany(Availability::class);
     }
 
     public function portfolioItems(): HasMany
