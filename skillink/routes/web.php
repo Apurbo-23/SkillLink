@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkillSelectionController;
 use App\Http\Controllers\EndorsementController;
+use App\Http\Controllers\LeaderboardController;
 
 use App\Http\Controllers\SkillOfferingController;
 Route::middleware(['auth'])->group(function () {
@@ -22,7 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/skill-offerings/{skillOffering}/attachments', [SkillOfferingController::class, 'uploadAttachment'])->name('skill-offerings.attachments.store');
     Route::delete('/attachments/{attachment}', [SkillOfferingController::class, 'deleteAttachment'])->name('attachments.destroy');
 });
-
+Route::get('/leaderboard', [LeaderboardController::class, 'index'])
+    ->name('leaderboard.index');
 
 use App\Http\Controllers\AvailabilityController;
 
