@@ -34,7 +34,7 @@ class ListingController extends Controller
         Listing::create([
             ...$validated,
             'user_id' => $request->user()->id,
-            'status'  => 'open',
+            'status'  => 'active',
         ]);
 
         return redirect()->route('listings.index')->with('success', 'Listing posted!');
