@@ -62,6 +62,12 @@
                     >
                         {{ __('Leaderboard') }}
                     </x-nav-link>
+                    <x-nav-link
+                        :href="route('analytics.index')"
+                        :active="request()->routeIs('analytics.*')"
+                    >
+                        {{ __('Analytics') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')">
                         {{ __('Availability') }}
                     </x-nav-link>
