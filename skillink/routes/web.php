@@ -15,6 +15,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkillSelectionController;
 use App\Http\Controllers\EndorsementController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\AnalyticsController;
 
 use App\Http\Controllers\SkillOfferingController;
 Route::middleware(['auth'])->group(function () {
@@ -25,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])
     ->name('leaderboard.index');
+Route::get('/analytics', [AnalyticsController::class, 'index'])
+    ->middleware('auth')
+    ->name('analytics.index');
 
 use App\Http\Controllers\AvailabilityController;
 
