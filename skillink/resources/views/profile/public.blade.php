@@ -65,6 +65,25 @@
             </div>
         </div>
 
+        {{-- ── Badges ── --}}
+        <div class="p-6 rounded-lg border mb-6"
+            style="background-color:#121110; border-color:rgba(212,175,55,0.3);">
+
+            <h2 class="font-semibold mb-3" style="color:#D4AF37;">Badges</h2>
+
+            @forelse ($badges as $badge)
+                <span class="inline-block mr-2 mb-2 px-3 py-1 rounded-full text-sm"
+                    style="background-color:#0f0e0c; border:1px solid rgba(212,175,55,0.25); color:#e8dfc8;">
+                    {{ $badge }}
+                </span>
+            @empty
+                <p class="text-sm" style="color:#9a8a6a;">
+                    No badges earned yet.
+                </p>
+            @endforelse
+
+        </div>
+
         {{-- ── Skills ── --}}
         <div class="p-6 rounded-lg border mb-6"
             style="background-color:#121110; border-color:rgba(212,175,55,0.3);">

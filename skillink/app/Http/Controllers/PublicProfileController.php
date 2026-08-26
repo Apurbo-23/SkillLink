@@ -24,9 +24,19 @@ class PublicProfileController extends Controller
         $completedSwaps = $user->swapRequestsSent()->where('status', 'completed')->count()
             + $user->swapRequestsReceived()->where('status', 'completed')->count();
 
+        $badges = [];
+        if ($completedSwaps >= 1){
+            $badges[] = 'First Swap';
+        }
+        if ($completedSwaps >= 10){
+            $badges[] = '10 Swaps completed';
+        }
+        if ($user->averageRating()!== null && $user->averageRating() >= 4.5){
+            $badges[] = 'Top Rated';
+        }
         return view('profile.public', compact(
             'user', 'listings', 'portfolioItems', 'ratings',
-            'endorsements', 'averageRating', 'ratingCount', 'completedSwaps'
+            'endorsements', 'averageRating', 'ratingCount', 'completedSwaps', 'badges'
         ));
     }
 }
