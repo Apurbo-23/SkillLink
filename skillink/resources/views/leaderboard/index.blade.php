@@ -52,12 +52,16 @@
                                         </td>
 
                                         <td class="px-6 py-4">
-                                            <a
-                                                href="{{ route('profile.public', ['slug' => $user->profile_slug]) }}"
-                                                class="text-indigo-600 hover:text-indigo-900 font-medium"
-                                            >
+                                            @if ($user->profile_slug)
+                                                <a
+                                                    href="{{ route('profile.public', ['slug' => $user->profile_slug]) }}"
+                                                    class="text-indigo-600 hover:text-indigo-900 font-medium"
+                                                >
+                                                    {{ $user->name }}
+                                                </a>
+                                            @else
                                                 {{ $user->name }}
-                                            </a>
+                                            @endif
                                         </td>
 
                                         <td class="px-6 py-4">

@@ -11,11 +11,15 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SkillSelectionController;
 use App\Http\Controllers\EndorsementController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\AnalyticsController;
+
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\DisputeController;
 
 use App\Http\Controllers\SkillOfferingController;
 Route::middleware(['auth'])->group(function () {
@@ -42,6 +46,9 @@ Route::post('/notifications/mark-read', function (Request $request) {
     return response()->noContent();
 })->middleware('auth')->name('notifications.mark-read');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/download-pdf', [PublicProfileController::class, 'downloadPdf'])->name('profile.download-pdf');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -123,6 +130,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/swap-requests/{swapRequest}/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('/swap-requests/{swapRequest}/messages/poll', [MessageController::class, 'poll'])->name('messages.poll');
     Route::get('/messages/{message}/download', [MessageController::class, 'download'])->name('messages.download');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/swap-requests/{swapRequest}/disputes', [DisputeController::class, 'store'])->name('disputes.store');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/disputes', [AdminController::class, 'disputes'])->name('disputes');
+    Route::patch('/disputes/{dispute}', [AdminController::class, 'resolveDispute'])->name('disputes.resolve');
+
+    Route::get('/listings', [AdminController::class, 'listings'])->name('listings');
+    Route::patch('/listings/{listing}/approve', [AdminController::class, 'approveListing'])->name('listings.approve');
+    Route::patch('/listings/{listing}/remove', [AdminController::class, 'removeListing'])->name('listings.remove');
+
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::patch('/users/{user}/suspend', [AdminController::class, 'suspendUser'])->name('users.suspend');
+    Route::patch('/users/{user}/unsuspend', [AdminController::class, 'unsuspendUser'])->name('users.unsuspend');
 });
 
 require __DIR__.'/auth.php';

@@ -44,6 +44,10 @@
                 style="background-color:rgba(212,175,55,0.12); border:1.5px solid #D4AF37; color:#D4AF37;">
                 My Sessions
             </a>
+            <a href="{{ route('profile.download-pdf') }}" class="inline-block px-4 py-2 rounded font-semibold text-sm"
+                style="background-color:#D4AF37; color:#0B0A09;">
+                Download My Profile (PDF)
+            </a>
         </div>
 
         {{-- Upcoming sessions preview --}}

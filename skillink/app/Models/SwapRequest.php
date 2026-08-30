@@ -70,6 +70,11 @@ class SwapRequest extends Model
         return $this->status === 'completed';
     }
 
+    public function disputes()
+    {
+        return $this->hasMany(Dispute::class);
+    }
+
     /**
      * True if this swap left the main flow via rejection or cancellation,
      * rather than progressing through it.

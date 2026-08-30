@@ -66,6 +66,18 @@
                         <button class="px-4 py-2 rounded font-semibold" style="background-color: #D4AF37; color: #0B0A09;">Mark Completed</button>
                     </form>
                 @endif
+
+                @if (!$swapRequest->disputes()->where('status', 'open')->exists())
+                <form method="POST" action="{{ route('disputes.store', $swapRequest) }}" class="mt-4">
+                    @csrf
+                    <textarea name="reason" rows="3" required placeholder="Describe the issue..."
+                        style="background-color:#1a1814; border:1px solid rgba(212,175,55,0.25); color:#e8dfc8; border-radius:0.375rem; width:100%; padding:0.5rem;"></textarea>
+                    <button type="submit" class="mt-2 px-3 py-1 rounded text-sm font-semibold" style="background-color:#D4AF37; color:#0B0A09;">
+                        Raise Dispute
+                    </button>
+                </form>
+                @endif
+
             </div>
         </div>
 

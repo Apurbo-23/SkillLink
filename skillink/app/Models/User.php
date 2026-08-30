@@ -28,6 +28,8 @@ class User extends Authenticatable
         'password',
         'credits',
         'profile_slug',
+        'is_admin',
+        'is_suspended',
     ];
 
     protected static function booted(): void
@@ -69,6 +71,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'credits' => 'integer',
+            'is_admin' => 'boolean',
+            'is_suspended' => 'boolean',
         ];
     }
 
@@ -146,6 +150,6 @@ class User extends Authenticatable
 
     public function publicProfileUrl(): string
     {
-    return route('profile.public', ['slug' => $this->profile_slug ?? $this->id]);
+        return route('profile.public', ['slug' => $this->profile_slug ?? $this->id]);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class PublicProfileController extends Controller
 {
     /**
@@ -13,6 +16,26 @@ class PublicProfileController extends Controller
     public function show(string $slug)
     {
         $user = User::where('profile_slug', $slug)->firstOrFail();
+
+        $data = $this->gatherProfileData($user);
+
+        return view('profile.public', $data);
+    }
+
+    public function downloadPdf(Request $request)
+    {
+        $user = $request->user();
+
+        $data = $this->gatherProfileData($user);
+
+        $pdf = Pdf::loadView('profile.pdf', $data);
+
+        return $pdf->download("{$user->name}-skilllink-profile.pdf");
+    }
+
+    protected function gatherProfileData(User $user): array
+    {
+        // $user = User::where('profile_slug', $slug)->firstOrFail();
 
         $listings = $user->listings()->where('status', 'active')->get();
         $portfolioItems = $user->portfolioItems()->latest()->get();
@@ -34,9 +57,9 @@ class PublicProfileController extends Controller
         if ($user->averageRating()!== null && $user->averageRating() >= 4.5){
             $badges[] = 'Top Rated';
         }
-        return view('profile.public', compact(
+        return compact(
             'user', 'listings', 'portfolioItems', 'ratings',
             'endorsements', 'averageRating', 'ratingCount', 'completedSwaps', 'badges'
-        ));
+        );
     }
 }
