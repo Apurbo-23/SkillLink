@@ -21,6 +21,7 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AdminDebugController;
 use App\Http\Controllers\DisputeController;
+use App\Http\Controllers\RatingController;
 
 use App\Http\Controllers\SkillOfferingController;
 Route::middleware(['auth'])->group(function () {
@@ -134,6 +135,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/swap-requests/{swapRequest}/disputes', [DisputeController::class, 'store'])->name('disputes.store');
+    Route::get('/swap-requests/{swapRequest}/rate', [RatingController::class, 'create'])->name('ratings.create');
+    Route::post('/swap-requests/{swapRequest}/rate', [RatingController::class, 'store'])->name('ratings.store');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

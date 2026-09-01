@@ -75,6 +75,11 @@ class SwapRequest extends Model
         return $this->hasMany(Dispute::class);
     }
 
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     /**
      * True if this swap left the main flow via rejection or cancellation,
      * rather than progressing through it.

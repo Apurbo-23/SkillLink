@@ -71,6 +71,88 @@
             </div>
         </div>
 
+        <!-- Rating Section -->
+        @if ($swapRequest->status === 'completed')
+        <div class="mt-6 p-6 rounded-lg border" style="background-color: #121110; border-color: #D4AF37; color: #e8dfc8;">
+            <h3 style="color: #D4AF37; font-weight: 600; font-size: 1.125rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                Rate This Swap
+            </h3>
+
+            @php
+                $userRating = $swapRequest->ratings()->where('rater_id', auth()->id())->first();
+            @endphp
+
+            @if ($userRating)
+                <!-- User's rating already submitted -->
+                <div style="background-color: #1a1814; border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 0.375rem; padding: 1rem;">
+                    <div style="color: #D4AF37; font-weight: 600; margin-bottom: 0.5rem;">Your Rating</div>
+                    <div style="color: #e8dfc8; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem; letter-spacing: 0.25rem;">
+                            @for ($i = 0; $i < $userRating->score; $i++)
+                                ★
+                            @endfor
+                            @for ($i = $userRating->score; $i < 5; $i++)
+                                ☆
+                            @endfor
+                        </span>
+                    </div>
+                    @if ($userRating->review)
+                        <div style="background-color: #0B0A09; border: 1px solid rgba(212, 175, 55, 0.15); border-radius: 0.375rem; padding: 0.75rem; margin-top: 0.5rem; font-size: 0.875rem;">
+                            {{ $userRating->review }}
+                        </div>
+                    @endif
+                </div>
+            @else
+                <!-- No rating yet -->
+                <div style="background-color: #1a1814; border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 0.375rem; padding: 1rem; margin-bottom: 1rem;">
+                    <p style="color: #9a8a6a; font-size: 0.875rem; margin-bottom: 0.75rem;">
+                        Help build our community by rating your swap partner. Share your honest feedback about the experience.
+                    </p>
+                    <a href="{{ route('ratings.create', $swapRequest) }}" class="inline-block px-4 py-2 rounded font-semibold" style="background-color: #D4AF37; color: #0B0A09; text-decoration: none;">
+                        ⭐ Rate Now
+                    </a>
+                </div>
+            @endif
+
+            <!-- Show other party's rating if exists -->
+            @php
+                $otherUserId = auth()->id() === $swapRequest->requester_id 
+                    ? $swapRequest->provider_id 
+                    : $swapRequest->requester_id;
+                $otherRating = $swapRequest->ratings()->where('rater_id', $otherUserId)->first();
+            @endphp
+
+            @if ($otherRating)
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(212, 175, 55, 0.15);">
+                    <div style="color: #9a8a6a; font-size: 0.875rem; margin-bottom: 0.5rem;">Their Rating</div>
+                    <div style="background-color: #1a1814; border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 0.375rem; padding: 1rem;">
+                        <div style="color: #D4AF37; font-weight: 600; margin-bottom: 0.5rem;">
+                            {{ $otherUserId === $swapRequest->requester_id ? $swapRequest->requester->name : $swapRequest->provider->name }}
+                        </div>
+                        <div style="color: #e8dfc8; margin-bottom: 0.5rem;">
+                            <span style="font-size: 1.5rem; letter-spacing: 0.25rem;">
+                                @for ($i = 0; $i < $otherRating->score; $i++)
+                                    ★
+                                @endfor
+                                @for ($i = $otherRating->score; $i < 5; $i++)
+                                    ☆
+                                @endfor
+                            </span>
+                        </div>
+                        @if ($otherRating->review)
+                            <div style="background-color: #0B0A09; border: 1px solid rgba(212, 175, 55, 0.15); border-radius: 0.375rem; padding: 0.75rem; margin-top: 0.5rem; font-size: 0.875rem;">
+                                {{ $otherRating->review }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endif
+        </div>
+        @endif
+
         <!-- Dispute Section -->
         <div class="mt-6 p-6 rounded-lg border" style="background-color: #121110; border-color: #D4AF37; color: #e8dfc8;">
             <h3 style="color: #D4AF37; font-weight: 600; font-size: 1.125rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
