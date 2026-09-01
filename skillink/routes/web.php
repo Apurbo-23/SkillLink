@@ -19,6 +19,7 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\AnalyticsController;
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AdminDebugController;
 use App\Http\Controllers\DisputeController;
 
 use App\Http\Controllers\SkillOfferingController;
@@ -55,7 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
     Route::post('/users/{user}/endorse', [EndorsementController::class, 'store'])->name('endorsements.store');
 });
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -137,6 +137,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/disputes', [AdminController::class, 'disputes'])->name('disputes');
     Route::patch('/disputes/{dispute}', [AdminController::class, 'resolveDispute'])->name('disputes.resolve');
 
@@ -148,5 +150,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/users/{user}/suspend', [AdminController::class, 'suspendUser'])->name('users.suspend');
     Route::patch('/users/{user}/unsuspend', [AdminController::class, 'unsuspendUser'])->name('users.unsuspend');
 });
+
+// Debug route - remove in production
+Route::get('/admin-check', [AdminDebugController::class, 'checkAdmin']);
 
 require __DIR__.'/auth.php';

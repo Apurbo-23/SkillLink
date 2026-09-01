@@ -10,7 +10,7 @@ class ListingController extends Controller
     public function index()
     {
         $listings = Listing::with('user')
-            ->where('status', 'open')
+            ->whereIn('status', ['open', 'active'])
             ->latest()
             ->get();
 
@@ -34,7 +34,7 @@ class ListingController extends Controller
         Listing::create([
             ...$validated,
             'user_id' => $request->user()->id,
-            'status'  => 'active',
+            'status'  => 'open',
         ]);
 
         return redirect()->route('listings.index')->with('success', 'Listing posted!');

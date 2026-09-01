@@ -95,7 +95,7 @@ class SwapRequestController extends Controller
             403
         );
 
-        $swapRequest->load(['listing', 'requester', 'provider', 'messages.sender']);
+        $swapRequest->load(['listing', 'requester', 'provider', 'messages.sender', 'disputes.raisedBy', 'disputes.resolvedBy']);
 
         return view('swap-requests.show', compact('swapRequest'));
     }

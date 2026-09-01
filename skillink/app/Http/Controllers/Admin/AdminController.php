@@ -10,6 +10,25 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    // ── Dashboard ──
+    public function dashboard()
+    {
+        $stats = [
+            'open_disputes' => Dispute::where('status', 'open')->count(),
+            'pending_listings' => Listing::where('status', 'open')->count(),
+            'suspended_users' => User::where('is_suspended', true)->count(),
+            'total_users' => User::where('is_admin', false)->count(),
+        ];
+
+        $recentDisputes = Dispute::with(['swapRequest', 'raisedBy'])
+            ->where('status', 'open')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact('stats', 'recentDisputes'));
+    }
+
     // ── Disputes ──
     public function disputes()
     {
