@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // ── Dashboard ──
+
     public function dashboard()
     {
         $stats = [
