@@ -502,7 +502,7 @@
         <div class="nav-links">
             @if (Route::has('login'))
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="btn-primary">Dashboard</a>
+                    <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('dashboard') }}" class="btn-primary">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="btn-primary">Log in</a>
                     @if (Route::has('register'))

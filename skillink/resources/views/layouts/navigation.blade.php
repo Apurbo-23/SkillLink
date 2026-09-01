@@ -28,7 +28,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="/">
                         <div class="logo">
                             <span class="logo-dot"></span>
                             <span>SkillLink</span>
