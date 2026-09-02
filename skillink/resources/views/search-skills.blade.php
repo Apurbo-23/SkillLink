@@ -145,9 +145,6 @@
         }
 
         .shadow-sm { box-shadow: 0 1px 8px rgba(0,0,0,0.5) !important; }
-        #skill::placeholder {
-        color: rgb(247, 246, 243) !important;
-        }
     </style>
 
     <div class="py-12">
@@ -183,7 +180,7 @@
                                     value="{{ $selectedSkill }}"
                                     placeholder="Type a skill name..."
                                     list="available-skills"
-                                    style="background-color:#1a1814 !important; border:1.5px solid rgba(255, 199, 15, 0.25) !important; color:#e8dfc8 !important; border-radius:0.375rem !important; padding:0.4rem 0.6rem !important; width:100% !important;"
+                                    style="background-color:#1a1814 !important; border:1.5px solid rgba(212,175,55,0.25) !important; color:#e8dfc8 !important; border-radius:0.375rem !important; padding:0.4rem 0.6rem !important; width:100% !important;"
                                 />
                                 <datalist id="available-skills">
                                     <option value="Python">
@@ -248,29 +245,9 @@
                                                 <a href="{{ route('profile.public', $user->profile_slug) }}" class="action-button flex-1 text-center">
                                                     View Profile
                                                 </a>
-                                                <!-- <a href="{{ route('swap-requests.create', ['listing' => 0]) }}" class="action-button flex-1 text-center">
+                                                <a href="{{ route('swap-requests.create', ['listing' => 0]) }}" class="action-button flex-1 text-center">
                                                     Connect
-                                                </a> -->
-                                                @php
-                                                    $matchingListing = $user->listings()
-                                                        ->where('status', 'active')
-                                                        ->where(function ($q) use ($selectedSkill) {
-                                                            if ($selectedSkill) {
-                                                                $q->where('skill_offered', 'LIKE', '%' . $selectedSkill . '%');
-                                                            }
-                                                        })
-                                                        ->first();
-                                                @endphp
-
-                                                @if ($matchingListing)
-                                                    <a href="{{ route('swap-requests.create', $matchingListing) }}" class="action-button flex-1 text-center">
-                                                        Connect
-                                                    </a>
-                                                @else
-                                                    <span class="action-button flex-1 text-center" style="opacity: 0.4; cursor: not-allowed;">
-                                                        No active listing
-                                                    </span>
-                                                @endif
+                                                </a>
                                             </div>
                                         </div>
                                     @endforeach
