@@ -1,21 +1,32 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl leading-tight" style="color: #D4AF37;">
             {{ __('Leaderboard') }}
         </h2>
     </x-slot>
+    <style>
+        body,
+        .bg-gray-100 { background-color: #0B0A09 !important; }
 
+        
+        .bg-white {
+            background-color: #121110 !important;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        .text-gray-700,
+        .text-sm.font-medium { color: #9a8a6a !important; }
+    </style>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-gray-700">
 
                     <h1 class="text-2xl font-bold mb-2">
                         SkillLink Leaderboard
                     </h1>
 
-                    <p class="text-gray-600 mb-6">
+                    <p class="text-gray-700 mb-6">
                         Top skill sharers ranked by completed swaps and average rating.
                     </p>
 
@@ -24,19 +35,19 @@
 
                             <thead>
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">
                                         Rank
                                     </th>
 
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">
                                         User
                                     </th>
 
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">
                                         Completed Swaps
                                     </th>
 
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">
                                         Average Rating
                                     </th>
                                 </tr>

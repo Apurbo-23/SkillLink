@@ -4,8 +4,16 @@
     </x-slot>
 
     <style>
-        body, .bg-gray-100 { background-color: #0B0A09 !important; }
-        .bg-white { background-color: #121110 !important; border: 1px solid rgba(212, 175, 55, 0.15); }
+        body,
+        .bg-gray-100 { background-color: #0B0A09 !important; }
+
+        /* ── Main card ── */
+        .bg-white {
+            background-color: #121110 !important;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        .text-gray-700,
+        .text-sm.font-medium { color: #9a8a6a !important; }
     </style>
 
     <div class="py-8 max-w-xl mx-auto px-4" style="background-color: #0B0A09; min-height: 100vh;">

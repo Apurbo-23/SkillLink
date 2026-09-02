@@ -19,7 +19,7 @@
             --teal-dim:#C6A152;
             --amber:   #D4AF37;
             --white:   #F0F4FF;
-            --muted:   #8A9BBF;
+            --muted:   #9a8a6a;
             --border:  rgba(255,255,255,0.08);
         }
 

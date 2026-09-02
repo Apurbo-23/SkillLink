@@ -145,6 +145,9 @@
         }
 
         .shadow-sm { box-shadow: 0 1px 8px rgba(0,0,0,0.5) !important; }
+        #skill::placeholder {
+        color: rgb(247, 246, 243) !important;
+        }
     </style>
 
     <div class="py-12">
@@ -180,7 +183,7 @@
                                     value="{{ $selectedSkill }}"
                                     placeholder="Type a skill name..."
                                     list="available-skills"
-                                    style="background-color:#1a1814 !important; border:1.5px solid rgba(212,175,55,0.25) !important; color:#e8dfc8 !important; border-radius:0.375rem !important; padding:0.4rem 0.6rem !important; width:100% !important;"
+                                    style="background-color:#1a1814 !important; border:1.5px solid rgba(255, 199, 15, 0.25) !important; color:#e8dfc8 !important; border-radius:0.375rem !important; padding:0.4rem 0.6rem !important; width:100% !important;"
                                 />
                                 <datalist id="available-skills">
                                     <option value="Python">
