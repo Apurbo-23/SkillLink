@@ -7,17 +7,14 @@
 
     <style>
         /* ── Base page background ── */
+
         body,
         .bg-gray-100 { background-color: #0B0A09 !important; }
 
-        /* ── Main card ── */
         .bg-white {
             background-color: #121110 !important;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
-
-        /* ── Greeting text ── */
-        .text-gray-900 { color: #e8dfc8 !important; }
 
         /* ── Tab buttons — default (inactive) ── */
         .tab-btn {

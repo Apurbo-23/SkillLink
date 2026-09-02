@@ -7,13 +7,13 @@
         body,
         .bg-gray-100 { background-color: #0B0A09 !important; }
 
+        /* ── Main card ── */
         .bg-white {
             background-color: #121110 !important;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
         .text-gray-700,
-        .text-sm.font-medium { color: #7b6e55 !important; }
-        .btn-text { color: #1c1b19 !important; font-size: 1rem;}
+        .text-sm.font-medium { color: #9a8a6a !important; }
     </style>
 
     <div class="py-8 max-w-4xl mx-auto px-4" style="background-color: #0B0A09; min-height: 100vh;">
