@@ -145,6 +145,9 @@
         }
 
         .shadow-sm { box-shadow: 0 1px 8px rgba(0,0,0,0.5) !important; }
+        #skill::placeholder {
+        color: rgba(247, 245, 240, 0.99) !important; /* or any color you want */
+        }
     </style>
 
     <div class="py-12">
@@ -245,7 +248,7 @@
                                                 <a href="{{ route('profile.public', $user->profile_slug) }}" class="action-button flex-1 text-center">
                                                     View Profile
                                                 </a>
-                                                <a href="{{ route('swap-requests.create', ['listing' => 0]) }}" class="action-button flex-1 text-center">
+                                                <a href="{{ route('swap-requests.create', ['listing' => $user->listings->first()->id ?? '#']) }}" class="action-button flex-1 text-center">
                                                     Connect
                                                 </a>
                                             </div>
