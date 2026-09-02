@@ -245,9 +245,29 @@
                                                 <a href="{{ route('profile.public', $user->profile_slug) }}" class="action-button flex-1 text-center">
                                                     View Profile
                                                 </a>
-                                                <a href="{{ route('swap-requests.create', ['listing' => 0]) }}" class="action-button flex-1 text-center">
+                                                <!-- <a href="{{ route('swap-requests.create', ['listing' => 0]) }}" class="action-button flex-1 text-center">
                                                     Connect
-                                                </a>
+                                                </a> -->
+                                                @php
+                                                    $matchingListing = $user->listings()
+                                                        ->where('status', 'active')
+                                                        ->where(function ($q) use ($selectedSkill) {
+                                                            if ($selectedSkill) {
+                                                                $q->where('skill_offered', 'LIKE', '%' . $selectedSkill . '%');
+                                                            }
+                                                        })
+                                                        ->first();
+                                                @endphp
+
+                                                @if ($matchingListing)
+                                                    <a href="{{ route('swap-requests.create', $matchingListing) }}" class="action-button flex-1 text-center">
+                                                        Connect
+                                                    </a>
+                                                @else
+                                                    <span class="action-button flex-1 text-center" style="opacity: 0.4; cursor: not-allowed;">
+                                                        No active listing
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
                                     @endforeach
