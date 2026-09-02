@@ -43,7 +43,7 @@
         <table>
             <tr>
                 <td>{{ $rating->rater->name }}</td>
-                <td>{{ $rating->stars }} / 5</td>
+                <td>{{ $rating->score }} / 5</td>
                 <td>{{ $rating->review }}</td>
             </tr>
         </table>
