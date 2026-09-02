@@ -37,7 +37,7 @@ class PublicProfileController extends Controller
     {
         // $user = User::where('profile_slug', $slug)->firstOrFail();
 
-        $listings = $user->listings()->where('status', 'active')->get();
+        $skillOfferings = $user->skillOfferings()->with('attachments')->get();
         $portfolioItems = $user->portfolioItems()->latest()->get();
         $ratings = $user->ratingsReceived()->with('rater')->latest()->take(10)->get();
         $endorsements = $user->endorsementCountsBySkill();
@@ -58,8 +58,7 @@ class PublicProfileController extends Controller
             $badges[] = 'Top Rated';
         }
         return compact(
-            'user', 'listings', 'portfolioItems', 'ratings',
-            'endorsements', 'averageRating', 'ratingCount', 'completedSwaps', 'badges'
+            'user', 'skillOfferings', 'portfolioItems', 'ratings', 'endorsements', 'averageRating', 'ratingCount', 'completedSwaps', 'badges'
         );
     }
 }

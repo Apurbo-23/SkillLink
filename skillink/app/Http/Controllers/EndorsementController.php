@@ -23,9 +23,8 @@ class EndorsementController extends Controller
 
         // The selected skill must actually belong to the user's active listing.
         abort_unless(
-            $user->listings()
-                ->where('status', 'active')
-                ->where('skill_offered', $skill)
+            $user->skillOfferings()
+                ->where('skill_name', $skill)
                 ->exists(),
             422,
             'This user does not offer that skill.'

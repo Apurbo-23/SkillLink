@@ -90,25 +90,19 @@
 
             <h2 class="font-semibold mb-3" style="color:#D4AF37;">Skills</h2>
 
-            @forelse ($listings as $listing)
+            @forelse ($skillOfferings as $skill)
 
                 <div class="mb-3 p-3 rounded"
                     style="background-color:#0f0e0c; border:1px solid rgba(212,175,55,0.12);">
 
                     <div>
                         <span style="color:#D4AF37; font-weight:600;">
-                            {{ $listing->skill_offered }}
+                            {{ $skill->skill_name }}
                         </span>
 
-                        <span style="color:#9a8a6a;"> for </span>
-
-                        <span style="color:#e8dfc8;">
-                            {{ $listing->skill_wanted }}
-                        </span>
-
-                        @if ($listing->category)
+                        @if ($skill->category)
                             <span class="ml-2 text-xs" style="color:#9a8a6a;">
-                                &middot; {{ $listing->category }}
+                                &middot; {{ $skill->category }}
                             </span>
                         @endif
                     </div>
@@ -124,12 +118,12 @@
 
                                 <input type="hidden"
                                     name="skill"
-                                    value="{{ $listing->skill_offered }}">
+                                    value="{{ $skill->skill_name }}">
 
                                 <button type="submit"
                                         class="px-3 py-2 rounded text-sm"
                                         style="background-color:#D4AF37; color:#0B0A09; font-weight:600;">
-                                    Endorse {{ $listing->skill_offered }}
+                                    Endorse {{ $skill->skill_name }}
                                 </button>
 
                             </form>
@@ -142,7 +136,7 @@
             @empty
 
                 <p class="text-sm" style="color:#9a8a6a;">
-                    No active skill listings right now.
+                    No skills listed right now.
                 </p>
 
             @endforelse

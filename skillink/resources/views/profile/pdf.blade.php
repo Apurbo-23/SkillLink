@@ -25,8 +25,8 @@
     @endforelse
 
     <h2>Active Listings</h2>
-    @forelse ($listings as $listing)
-        <p><strong>{{ $listing->skill_offered }}</strong> ↔ {{ $listing->skill_wanted }} ({{ $listing->category }})</p>
+    @forelse ($skillOfferings as $skill)
+        <p><strong>{{ $skill->skill_name }}</strong> ↔ ({{ $skill->category }})</p>
     @empty
         <p>No active listings.</p>
     @endforelse
