@@ -125,7 +125,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div style="color: #957d30;">{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -136,7 +136,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('admin.dashboard')" style="color: #D4AF37;">
+                        <x-dropdown-link :href="route('admin.dashboard')" style="color: #a4882c;">
                             {{ __('Admin Dashboard') }}
                         </x-dropdown-link>
 
@@ -146,7 +146,7 @@
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                                this.closest('form').submit();" style="color: #a4882c;">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -178,7 +178,7 @@
                             @forelse (auth()->user()->notifications->take(10) as $notification)
                                 <a href="{{ $notification->data['url'] ?? '#' }}"
                                     class="block p-2 mb-1 rounded text-sm"
-                                    style="background-color: {{ $notification->read_at ? 'transparent' : 'rgba(212,175,55,0.08)' }}; color:#e8dfc8;">
+                                    style="background-color: {{ $notification->read_at ? 'transparent' : 'rgba(212,175,55,0.08)' }}; color: #e8dfc8;">
                                     {{ $notification->data['message'] ?? 'Notification' }}
                                     <div class="text-xs mt-1" style="color:#9a8a6a;">{{ $notification->created_at->diffForHumans() }}</div>
                                 </a>
