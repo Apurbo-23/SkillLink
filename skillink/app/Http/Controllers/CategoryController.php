@@ -8,7 +8,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Listing::where('status', 'active')
+        $categories = Listing::where('status', 'open')
             ->whereNotNull('category')
             ->where('category', '!=', '')
             ->distinct()
@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function show($category)
     {
-        $listings = Listing::where('status', 'active')
+        $listings = Listing::where('status', 'open')
             ->where('category', $category)
             ->with('user')
             ->latest()

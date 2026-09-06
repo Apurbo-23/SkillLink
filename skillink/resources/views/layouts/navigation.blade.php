@@ -72,7 +72,7 @@
                     <x-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')">
                         {{ __('Availability') }}
                     </x-nav-link>
-                    
+
                 </div>
                 @endif
             </div>
@@ -105,7 +105,9 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                    <x-dropdown-link :href="route('categories.index')"> {{ __('Skill Categories') }}
 
+                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -227,6 +229,6 @@
         <x-responsive-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')">
             {{ __('Availability') }}
         </x-responsive-nav-link>
-        
+
     </div>
 </nav>
